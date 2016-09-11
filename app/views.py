@@ -21,7 +21,7 @@ def search(page):
     query = Comments.query
     for keyword in keywords:
         query = query.filter(Comments.keywords.any(Keywords.keyword == keyword))
-    output = query.order_by(Comments.id.desc()).paginate(page, 8)
+    output = query.paginate(page, 8)
     response = make_response(render_template("search.html", paginated=output))
     response.set_cookie("search", json.dumps(keywords))
     return response
