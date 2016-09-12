@@ -11,7 +11,7 @@ oauth = PrawOAuth2Mini(r, app_key=secret["app_key"], app_secret=secret["app_secr
 r.config.api_request_delay = 1
 
 posts = r.search("Resume Advice Thread author:alanbot OR author:automoderator", subreddit="cscareerquestions",
-                 limit=None)
+                 limit=None, sort="new")
 
 count = 1
 
@@ -90,3 +90,28 @@ for comment in Comments.query.all():
         new = Keywords(post_id=comment.id, keyword="location:europe")
         db.session.add(new)
 db.session.commit()
+
+for comment in Comments.query.all():
+    if any(x in comment.text.lower() for x in ["connecticut", "vermont", "illinois", "rhode island", "america", "usa"
+                                               "hawaii", "colorado", "arizona", "new jersey", "tennessee", "florida",
+                                               "north carolina", "palau", "american samoa", "oregon", "virginia",
+                                               "new hampshire", "idaho", "indiana", "iowa", "utah", "kansas",
+                                               "new mexico", "south carolina", "north dakota", "montana", "wyoming",
+                                               "maine", "arkansas", "louisiana", "texas", "maryland", "ohio",
+                                               "south dakota", "california", "michigan", "pennsylvania", "minnesota",
+                                               "washington", "nebraska", "mississippi", "oklahoma", "new york",
+                                               "nevada", "kentucky", "alaska", "delaware", "alabama", "wisconsin",
+                                               "georgia", "missouri", "west virginia", "massachusetts", "columbia",
+                                               "los angeles", "nyc", "chicago", "houston", "philadeplphia", "phoenix",
+                                               "san diego", "dallas", "san jose", "austin", "san francisco", "seattle",
+                                               "denver", "boston", "las vegas", "atlanta"]):
+        new = Keywords(post_id=comment.id, keyword="location:united-states")
+        db.session.add(new)
+db.session.commit()
+
+for comment in Comments.query.all():
+    if any(x in comment.text.lower() for x in ["experienced", "current job", " employed", "working at"]):
+        new = Keywords(post_id=comment.id, keyword="experienced")
+        db.session.add(new)
+db.session.commit()
+
